@@ -1,30 +1,55 @@
 import { Component, OnInit } from "@angular/core"
 
+class LineInfo {
+    count = 0
+    texts: string[] = []
+}
+
 @Component({
     templateUrl: "./line-counting.page.html"
 })
 export class LineCountingPage implements OnInit {
 
-    text = "ช็อตโปรดักชั่นอิเหนาวาซาบิ เวณิการีพอร์ทพุทโธคอนแทคพาสตา ช็อปปิ้งวัคค์มอบตัว วืดดอกเตอร์ เช็กภคันทลาพาธเกสต์เฮาส์ หมวยเปเปอร์อัลบั้มสามช่า อัลตราตุ๊ดโหลนแอ็กชั่น คอมเพล็กซ์เซลส์แมนละติน รูบิกโมเดลเอเซีย ซี้พาร์ทเนอร์ อุรังคธาตุบุญคุณ โซลาร์บาลานซ์เหี่ยวย่น ซูชิ แผดเผา วัจนะเปียโนเอ๋อ อยุติธรรมอัลไซเมอร์ไฟลต์ดิสเครดิตสไตรค์ ชัตเตอร์สมิติเวชรีเสิร์ชซิมอันตรกิริยา สกายเป่ายิงฉุบซูเอี๋ยอีโรติก กษัตริยาธิราชโอเวอร์ สไตรค์ครูเสดโต๊ะจีนทัวริสต์ แพนงเชิญแซ็กแทกติค แหววเกสต์เฮาส์อิเหนาแม็กกาซีนซูเปอร์ คอรัปชัน แอพพริคอทโซลาร์มหภาคอีโรติก มิวสิคเบิร์ดมอบตัวสปาเอสเพรสโซ แอปเปิลพลาซ่าจุ๊ยมาร์เก็ตติ้งบัตเตอร์ ป๊อกมอนสเตอร์สโตนซูเปอร์ศิลปากร เมจิคคอนโดมิเนียมบรรพชน โหงวเฮ้ง สเตย์วานิลาล็อบบี้เฟิร์ม มยุราภิรมย์แจ๊ส บาร์บีคิวเยอบีราแครกเกอร์แครกเกอร์ เคอร์ฟิวจูเนียร์ลอร์ดอีแต๋น ชิฟฟอนไคลแม็กซ์คัตเอาต์ตุ๊ด วาทกรรม มาม่า ออกแบบ รันเวย์สต๊อคซากุระ บอมบ์ โหลน มินต์บูติกสจ๊วต หลวงพี่ครูเสดวอล์ก แอดมิสชันสแล็กคาปูชิโน ไฮเอนด์จูเนียร์คอนเซปต์ไวอากร้าภารตะ บลูเบอร์รีแอดมิชชั่น มหาอุปราชา คลับแซว ธรรมาภิบาล เปโซ แหววบัส ฟาสต์ฟู้ด แพนงเชิญ มาเฟียอยุติธรรมผลักดันแอ็คชั่น คีตกวีตรวจสอบ สแควร์ เซ็นเซอร์ออเดอร์เปโซ เวสต์โคโยตี้มาร์จินเกรย์แอลมอนด์ เหี่ยวย่นเวณิกาตรวจทานแฟรี่ เมเปิลศิลปวัฒนธรรมอัตลักษณ์วอฟเฟิล แฟรนไชส์คีตกวีวิดีโอทัวร์นาเมนท์แผดเผา ซาฟารีโง่เขลาซูม เซ็กส์โหงวเฮ้งซูเอี๋ยมอคค่า อุปนายิกาสตริงโฮสเตสไฮไลท์ กาญจน์สะบึมธุหร่ำเทคโนแครต วาริชศาสตร์แรงใจเป่ายิ้งฉุบศิรินทร์ คาปูชิโนแอปเปิลฮอตดอก แอ็คชั่นโปรเจ็กต์ดีกรีบ๊อบเบลอ หม่านโถวไคลแม็กซ์ เซฟตี้ฮากกาแอร์ คอร์ปคอรัปชันแคนยอนเสือโคร่งซาร์ดีน ซัพพลายแฟ้บอัลตรา ช็อปเปอร์วีน จ๊อกกี้แฟล็ตครูเสด แมกกาซีนซาร์ดีนทัวริสต์แคชเชียร์ แคมปัสเทคโนแครตยอมรับทำงาน คาวบอยบูติกคอลัมนิสต์เวสต์ตรวจทาน เอสเพรสโซเซ็นเตอร์นู้ด เหมย ซีเรียสศากยบุตรเซฟตี้เทคโนครัวซอง บู๊"
+    line = new LineInfo()
 
-    getLineCount() {
-        let lineHeight = this.getLineHeight()
-        let p = document.getElementById("p")
-        return p.offsetHeight / lineHeight
+    getP() {
+        return document.getElementById("p")
     }
 
-    getLineHeight() {
-        let newP = document.createElement("p")
-        newP.innerHTML = "ก<br>ฮ"
-        document.body.appendChild(newP)
-        let lineHeight = newP.offsetHeight / 2
-        newP.remove()
-        return lineHeight
-    }
+    ngOnInit() {
+        this.setText()
 
-    ngOnInit(): void {
+        this.setLineInfo()
         window.addEventListener("resize", () => {
-            this.getLineCount()
+            this.setLineInfo()
         });
+    }
+
+    setLineInfo() {
+        let currentLine = -1
+        let currentOffsetTop = 0
+        let p = this.getP()
+        let texts: string[] = []
+        p.childNodes.forEach((x: any) => {
+            if (currentOffsetTop != x.offsetTop) {
+                currentLine++
+                currentOffsetTop = x.offsetTop
+            }
+            if (texts[currentLine] == undefined) {
+                texts[currentLine] = ""
+            }
+            texts[currentLine] += x.innerText
+        })
+        this.line.count = texts.length
+        this.line.texts = texts
+    }
+
+    setText() {
+        let text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel lacinia arcu, eget laoreet est. Suspendisse eget dictum ex, vel lobortis erat. Aliquam posuere ipsum in sagittis pharetra. Mauris sit amet auctor lacus, maximus dictum odio. Quisque nec condimentum erat. Maecenas varius consequat mi, at lobortis leo blandit eu. Vivamus rutrum velit massa, sit amet lacinia odio faucibus vel. Sed sed scelerisque enim, eget volutpat arcu. Sed sagittis velit lorem, sit amet elementum enim tempus et. Mauris fermentum mattis tempus. Proin vel gravida nibh, eget tempor odio."
+
+        let charSpans = [...text].map(x => `<span>${x}</span>`)
+        text = charSpans.join("")
+        let p = this.getP()
+        p.innerHTML = text
     }
 }

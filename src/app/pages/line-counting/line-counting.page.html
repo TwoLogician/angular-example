@@ -1,5 +1,8 @@
 <h2>Line Counting</h2>
 
-<p id="p">{{text}}</p>
+<p id="p"></p>
 
-Lines: {{getLineCount()}}
+Line Count: {{line.count}}
+<ol>
+    <li *ngFor="let item of line.texts">{{item}}</li>
+</ol>
