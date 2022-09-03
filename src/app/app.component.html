@@ -1,2 +1,7 @@
-<button routerLink="/line-counting">Line Counting</button>
-<router-outlet></router-outlet>
+<div class="topnav" [class.responsive]="responsive">
+    <a (click)="toggleResponsive()" *ngFor="let item of links" [routerLink]="item.routerLink" routerLinkActive="active">{{item.text}}</a>
+    <a class="icon" (click)="toggleResponsive()">≡</a>
+</div>
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
